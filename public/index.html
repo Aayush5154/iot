@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>ParcelFlow | Live Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="page-shell">
+
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">P</span>
+        <span>Parcel<span class="brand-light">Flow</span></span>
+      </a>
+
+      <div class="top-meta">
+        <span class="live-dot"></span>
+        <span id="connectionText">Connecting...</span>
+      </div>
+    </header>
+
+    <main>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">IOT PARCEL HANDOFF VERIFIER</p>
+          <h1>Sorting overview<span>.</span></h1>
+          <p class="subtitle">
+            Monitor parcel routing outcomes from your sorting station in real time.
+          </p>
+        </div>
+
+        <button class="refresh-btn" id="refreshBtn" type="button">
+          <span>↻</span> Refresh
+        </button>
+      </section>
+
+      <section class="total-card">
+        <div>
+          <p class="card-label">TOTAL PARCELS PROCESSED</p>
+          <div class="total-number" id="totalParcels">—</div>
+          <p class="total-note">Across all routing outcomes</p>
+        </div>
+
+        <div class="package-icon">▣</div>
+      </section>
+
+      <section class="section-heading">
+        <div>
+          <p class="eyebrow">PERFORMANCE</p>
+          <h2>Routing breakdown</h2>
+        </div>
+
+        <span class="updated" id="lastUpdated">
+          Waiting for data...
+        </span>
+      </section>
+
+      <section class="stats-grid">
+
+        <article class="stat-card correct">
+          <div class="stat-top">
+            <span class="stat-icon">✓</span>
+            <span class="stat-status">ON ROUTE</span>
+          </div>
+
+          <p class="stat-title">Correctly routed</p>
+          <p class="stat-value" id="correctCount">—</p>
+          <p class="stat-description">
+            Parcel reached the expected tray
+          </p>
+        </article>
+
+        <article class="stat-card wrong">
+          <div class="stat-top">
+            <span class="stat-icon">!</span>
+            <span class="stat-status">MISROUTED</span>
+          </div>
+
+          <p class="stat-title">Wrong tray</p>
+          <p class="stat-value" id="wrongCount">—</p>
+          <p class="stat-description">
+            Parcel detected in the wrong tray
+          </p>
+        </article>
+
+        <article class="stat-card pending">
+          <div class="stat-top">
+            <span class="stat-icon">…</span>
+            <span class="stat-status">UNCONFIRMED</span>
+          </div>
+
+          <p class="stat-title">Unconfirmed</p>
+          <p class="stat-value" id="unconfirmedCount">—</p>
+          <p class="stat-description">
+            No tray confirmation received
+          </p>
+        </article>
+
+      </section>
+
+      <section class="bottom-row">
+        <div class="info-panel">
+          <div class="panel-icon">⌁</div>
+
+          <div>
+            <h3>Live cloud sync</h3>
+            <p>
+              Dashboard data is fetched from your ThingSpeak channel
+              through your Node.js API every 20 seconds.
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-note">
+          PARCELFLOW <span>•</span> IOT MONITORING
+        </div>
+      </section>
+
+      <p class="error-message" id="errorMessage" role="status"></p>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
