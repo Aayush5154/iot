@@ -1,7 +1,7 @@
-
 require("dotenv").config();
 
 const express = require("express");
+const path = require("path");
 
 const app = express();
 
@@ -10,10 +10,25 @@ const PORT = process.env.PORT || 3000;
 const CHANNEL_ID = process.env.THINGSPEAK_CHANNEL_ID;
 const READ_API_KEY = process.env.THINGSPEAK_READ_API_KEY;
 
+
+// Serve HTML, CSS and JS files
+app.use(express.static(path.join(__dirname, "public")));
+
+
 // Get parcel statistics from ThingSpeak
 app.get("/api/stats", async (req, res) => {
+
   try {
-    const url = `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json?api_key=${READ_API_KEY}`;
+
+    if (!CHANNEL_ID || !READ_API_KEY) {
+      return res.status(500).json({
+        success: false,
+        message: "ThingSpeak environment variables are missing"
+      });
+    }
+
+    const url =
+      `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json?api_key=${READ_API_KEY}`;
 
     const response = await fetch(url);
 
@@ -35,25 +50,30 @@ app.get("/api/stats", async (req, res) => {
     res.json({
       success: true,
       totalParcels: total,
+
       parcels: {
         correct,
         wrong,
         unconfirmed
       },
+
       lastUpdated: data.created_at
     });
 
   } catch (error) {
+
     console.error("API Error:", error.message);
 
     res.status(500).json({
       success: false,
       message: "Internal server error"
     });
+
   }
+
 });
 
-// Start server
+
 app.listen(PORT, () => {
   console.log(`Parcel Dashboard API running on port ${PORT}`);
 });
